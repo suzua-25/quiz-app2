@@ -14,6 +14,9 @@ import {
 } from 'lucide-react';
 import { supabase } from './supabase';
 
+// ★アクセス解析用：追加1：作成したカスタムフックを読み込む
+import { useAnonymousId } from './hooks/useAnonymousId';
+
 export default function QuizApp() {
   const [mode, setMode] = useState('student');
   const [isTeacherLoggedIn, setIsTeacherLoggedIn] = useState(false);
@@ -32,6 +35,30 @@ export default function QuizApp() {
   /*envファイルにパスワードを入力すること*/
   const TEACHER_USERNAME = process.env.REACT_APP_TEACHER_USERNAME;
   const TEACHER_PASSWORD = process.env.REACT_APP_TEACHER_PASSWORD;
+
+  //-----------アクセス解析用-----------------------
+  // ★ 追加2-A：フックを呼び出して、匿名IDを取得する
+  const anonymousId = useAnonymousId();
+
+  // ★ 追加2-B：Supabaseにイベントを送信する共通関数を作成
+  const trackEvent = async (eventName) => {
+    // 生徒モード以外、またはIDがない場合は記録しない
+    if (mode !== 'student' || !anonymousId) return;
+
+    try {
+      // Supabaseの「user_events」テーブルに記録する（テーブルは後で作ります）
+      await supabase.from('user_events').insert([
+        {
+          anonymous_id: anonymousId,
+          event_name: eventName, // 例: 'quiz_start' や 'quiz_complete'
+          quiz_date_id: selectedDate, // どの日のクイズか
+        },
+      ]);
+    } catch (error) {
+      console.error('アクセス解析の記録エラー:', error);
+    }
+  };
+  //----------アクセス解析ここまで-------------
 
   useEffect(() => {
     loadQuizzes();
@@ -222,6 +249,9 @@ export default function QuizApp() {
     setSelectedAnswer(null);
     setShowResult(false);
     setScore({ correct: 0, total: 0 });
+
+    // ★ アクセス解析：追加3：クイズを開始したことを記録
+    trackEvent('quiz_start');
   };
 
   const checkAnswer = () => {
@@ -254,6 +284,9 @@ export default function QuizApp() {
         `お疲れさまでした！\n正解数: ${score.correct} / ${currentQuiz.length}`,
       );
       setCurrentQuiz(null);
+
+      // ★ アクセス解析：追加4：クイズを最後まで完了したことを記録
+      trackEvent('quiz_complete');
     }
   };
 
