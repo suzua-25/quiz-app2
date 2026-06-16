@@ -29,7 +29,7 @@ export default function QuizApp() {
   const [quizDate, setQuizDate] = useState('');
   const [quizText, setQuizText] = useState('');
   const [deleteConfirm, setDeleteConfirm] = useState(null);
-
+  /*envファイルにパスワードを入力すること*/
   const TEACHER_USERNAME = process.env.REACT_APP_TEACHER_USERNAME;
   const TEACHER_PASSWORD = process.env.REACT_APP_TEACHER_PASSWORD;
 

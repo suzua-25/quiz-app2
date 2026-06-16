@@ -1,7 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 
-// ★★★ ここに先ほどコピーした情報を貼り付け ★★★
-const supabaseUrl = 'https://wjluszjtvvcyizyuvnvm.supabase.co';
-const supabaseAnonKey = 'sb_publishable_DTB57o3FD56-c8iQ0ufSsg_A-OE7jpN';
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
