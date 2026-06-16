@@ -473,7 +473,7 @@ export default function QuizApp() {
               <div>
                 <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white-100 mb-3 sm:mb-4 lg:mb-6">
                   <TrendingUp className="inline mr-2" size={50} />
-                  理解度チェックテスト
+                  理解度チェック
                 </h1>
                 <p className="text-sm sm:text-base text-white-100">
                   授業の復習にご活用くださいませ
@@ -542,7 +542,7 @@ export default function QuizApp() {
                   </div>
                 ) : (
                   <div>
-                    <label className="block text-sm sm:text-sm font-semibold text-cyan-100 mb-3 sm:mb-5">
+                    <label className="block text-sm sm:text-lg font-semibold text-cyan-100 mb-3 sm:mb-5">
                       ▼ 復習したい授業の日付を選択してください
                     </label>
                     <select
