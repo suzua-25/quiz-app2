@@ -77,7 +77,7 @@ export default function QuizApp() {
 
   const deleteQuiz = async (date) => {
     try {
-      const { error } = await supabase.from('quizzes').delete().eq('id', date);
+      const { error } = await supabase.from('quiz2').delete().eq('id', date);
 
       if (error) throw error;
 
