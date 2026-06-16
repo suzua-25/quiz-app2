@@ -40,7 +40,7 @@ export default function QuizApp() {
   const loadQuizzes = async () => {
     try {
       const { data, error } = await supabase
-        .from('quizzes')
+        .from('quiz2') //supabaseで設定したデーターベース名
         .select('*')
         .order('id', { ascending: false });
 
