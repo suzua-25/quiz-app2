@@ -506,9 +506,11 @@ export default function QuizApp() {
               <div>
                 <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white-100 mb-3 sm:mb-4 lg:mb-6">
                   <TrendingUp className="inline mr-2" size={50} />
-                  理解度チェック
+                  授業理解度チェック
                 </h1>
                 <p className="text-sm sm:text-base text-white-100">
+                  WebMb0612クラス専用アプリです。
+                  <br />
                   授業の復習にご活用くださいませ
                   <Sparkles className="inline mr-1 sm:mr-2" size={18} />
                 </p>
