@@ -28,6 +28,7 @@ export default function QuizApp() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [showResult, setShowResult] = useState(false);
+  const [showResultModal, setShowResultModal] = useState(false);
   const [score, setScore] = useState({ correct: 0, total: 0 });
   const [quizDate, setQuizDate] = useState('');
   const [quizText, setQuizText] = useState('');
@@ -249,6 +250,7 @@ export default function QuizApp() {
     setCurrentQuestionIndex(0);
     setSelectedAnswer(null);
     setShowResult(false);
+    setShowResultModal(false);
     setScore({ correct: 0, total: 0 });
 
     // ★ アクセス解析：追加3：クイズを開始したことを記録
@@ -261,6 +263,7 @@ export default function QuizApp() {
       return;
     }
     setShowResult(true);
+    setShowResultModal(true);
 
     const currentQuestion = currentQuiz[currentQuestionIndex];
     if (selectedAnswer === currentQuestion.correctAnswer) {
@@ -279,6 +282,7 @@ export default function QuizApp() {
       setCurrentQuestionIndex((prev) => prev + 1);
       setSelectedAnswer(null);
       setShowResult(false);
+      setShowResultModal(false);
     } else {
       // score.correctは既にcheckAnswer()でカウント済みなので、そのまま使用
       alert(
@@ -441,11 +445,30 @@ export default function QuizApp() {
                 </button>
               </div>
             )}
+
+            {/* 回答済みでモーダルを閉じている間、解説を見返すためのボタン */}
+            {showResult && !showResultModal && (
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <button
+                  onClick={() => setShowResultModal(true)}
+                  className="flex-1 glass-strong hover:bg-cyan-400/40 text-white py-2.5 sm:py-3 rounded-xl font-semibold transition-all text-sm sm:text-base hover:scale-105"
+                >
+                  解説を見る
+                </button>
+                <button
+                  onClick={() => setShowBackToTopConfirm(true)}
+                  className="sm:px-6 glass hover:bg-gray-600 text-white py-2.5 sm:py-3 rounded-xl font-semibold transition-all text-sm sm:text-base"
+                >
+                  <Home className="inline mr-1" size={16} />
+                  TOPへ
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
         {/* 結果表示モーダル */}
-        {showResult && (
+        {showResultModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="glass-strong rounded-2xl shadow-xl p-5 sm:p-8 max-w-lg w-full max-h-[85vh] overflow-y-auto">
               <div
@@ -477,14 +500,22 @@ export default function QuizApp() {
                 </div>
               </div>
 
-              <button
-                onClick={nextQuestion}
-                className="w-full glass-strong hover:bg-cyan-400/40 text-white py-3 rounded-xl font-semibold transition-all hover:scale-105"
-              >
-                {currentQuestionIndex < currentQuiz.length - 1
-                  ? '次の問題へ'
-                  : '終了'}
-              </button>
+              <div className="flex gap-3 sm:gap-4">
+                <button
+                  onClick={() => setShowResultModal(false)}
+                  className="sm:px-6 glass hover:bg-gray-600 text-white py-3 rounded-xl font-semibold transition-all"
+                >
+                  戻る
+                </button>
+                <button
+                  onClick={nextQuestion}
+                  className="flex-1 glass-strong hover:bg-cyan-400/40 text-white py-3 rounded-xl font-semibold transition-all hover:scale-105"
+                >
+                  {currentQuestionIndex < currentQuiz.length - 1
+                    ? '次の問題へ'
+                    : '終了'}
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -511,7 +542,7 @@ export default function QuizApp() {
                 </button>
                 <button
                   onClick={() => setShowBackToTopConfirm(false)}
-                  className="flex-1 bg-gray-400 hover:bg-gray-600 text-white py-3 rounded-lg font-semibold transition-colors"
+                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-white py-3 rounded-lg font-semibold transition-colors"
                 >
                   キャンセル
                 </button>
