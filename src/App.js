@@ -32,6 +32,7 @@ export default function QuizApp() {
   const [quizDate, setQuizDate] = useState('');
   const [quizText, setQuizText] = useState('');
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [showBackToTopConfirm, setShowBackToTopConfirm] = useState(false);
   /*envファイルにパスワードを入力すること*/
   const TEACHER_USERNAME = process.env.REACT_APP_TEACHER_USERNAME;
   const TEACHER_PASSWORD = process.env.REACT_APP_TEACHER_PASSWORD;
@@ -432,7 +433,7 @@ export default function QuizApp() {
                   OK（答え合わせ）
                 </button>
                 <button
-                  onClick={backToTop}
+                  onClick={() => setShowBackToTopConfirm(true)}
                   className="sm:px-6 glass hover:bg-gray-600 text-white py-2.5 sm:py-3 rounded-xl font-semibold transition-all text-sm sm:text-base"
                 >
                   <Home className="inline mr-1" size={16} />
@@ -484,6 +485,37 @@ export default function QuizApp() {
                   ? '次の問題へ'
                   : '終了'}
               </button>
+            </div>
+          </div>
+        )}
+
+        {/* TOPへ戻る確認モーダル */}
+        {showBackToTopConfirm && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="glass-strong rounded-2xl shadow-xl p-6 sm:p-8 max-w-md w-full">
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-4">
+                TOPに戻りますか？
+              </h3>
+              <p className="text-cyan-100 mb-6 text-sm sm:text-base">
+                TOPに戻ると現在の回答状況はリセットされ、最初から解き直しになります。よろしいですか？
+              </p>
+              <div className="flex gap-4">
+                <button
+                  onClick={() => {
+                    setShowBackToTopConfirm(false);
+                    backToTop();
+                  }}
+                  className="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg font-semibold transition-colors"
+                >
+                  TOPに戻る
+                </button>
+                <button
+                  onClick={() => setShowBackToTopConfirm(false)}
+                  className="flex-1 bg-gray-400 hover:bg-gray-600 text-white py-3 rounded-lg font-semibold transition-colors"
+                >
+                  キャンセル
+                </button>
+              </div>
             </div>
           </div>
         )}
