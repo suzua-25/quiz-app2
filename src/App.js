@@ -453,7 +453,7 @@ export default function QuizApp() {
                   onClick={() => setShowResultModal(true)}
                   className="flex-1 glass-strong hover:bg-cyan-400/40 text-white py-2.5 sm:py-3 rounded-xl font-semibold transition-all text-sm sm:text-base hover:scale-105"
                 >
-                  解説を見る
+                  解説を見る（次へ進む）
                 </button>
                 <button
                   onClick={() => setShowBackToTopConfirm(true)}
@@ -503,13 +503,13 @@ export default function QuizApp() {
               <div className="flex gap-3 sm:gap-4">
                 <button
                   onClick={() => setShowResultModal(false)}
-                  className="sm:px-6 glass hover:bg-gray-600 text-white py-3 rounded-xl font-semibold transition-all"
+                  className="flex-1 glass hover:bg-gray-600 text-white py-3 rounded-xl font-semibold transition-all"
                 >
                   戻る
                 </button>
                 <button
                   onClick={nextQuestion}
-                  className="flex-1 glass-strong hover:bg-cyan-400/40 text-white py-3 rounded-xl font-semibold transition-all hover:scale-105"
+                  className="flex-[2] glass-strong hover:bg-cyan-400/40 text-white py-3 rounded-xl font-semibold transition-all hover:scale-105"
                 >
                   {currentQuestionIndex < currentQuiz.length - 1
                     ? '次の問題へ'
