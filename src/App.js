@@ -422,10 +422,33 @@ export default function QuizApp() {
               ))}
             </div>
 
-            {/* 結果表示 */}
-            {showResult && (
+            {/* 回答前のボタン（結果表示中はモーダルに移動） */}
+            {!showResult && (
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <button
+                  onClick={checkAnswer}
+                  className="flex-1 glass-strong hover:bg-cyan-400/40 text-white py-2.5 sm:py-3 rounded-xl font-semibold transition-all text-sm sm:text-base hover:scale-105"
+                >
+                  OK（答え合わせ）
+                </button>
+                <button
+                  onClick={backToTop}
+                  className="sm:px-6 glass hover:bg-gray-600 text-white py-2.5 sm:py-3 rounded-xl font-semibold transition-all text-sm sm:text-base"
+                >
+                  <Home className="inline mr-1" size={16} />
+                  TOPへ
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* 結果表示モーダル */}
+        {showResult && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="glass-strong rounded-2xl shadow-xl p-5 sm:p-8 max-w-lg w-full max-h-[85vh] overflow-y-auto">
               <div
-                className={`p-4 sm:p-6 rounded-xl mb-4 sm:mb-6 text-sm sm:text-base ${
+                className={`p-4 sm:p-6 rounded-xl mb-5 sm:mb-6 text-sm sm:text-base ${
                   isCorrect ? 'glass-result-correct' : 'glass-result-incorrect'
                 }`}
               >
@@ -452,47 +475,18 @@ export default function QuizApp() {
                   {question.explanation}
                 </div>
               </div>
-            )}
 
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-              {!showResult ? (
-                <>
-                  <button
-                    onClick={checkAnswer}
-                    className="flex-1 glass-strong hover:bg-cyan-400/40 text-white py-2.5 sm:py-3 rounded-xl font-semibold transition-all text-sm sm:text-base hover:scale-105"
-                  >
-                    OK（答え合わせ）
-                  </button>
-                  <button
-                    onClick={backToTop}
-                    className="sm:px-6 glass hover:bg-gray-600 text-white py-2.5 sm:py-3 rounded-xl font-semibold transition-all text-sm sm:text-base"
-                  >
-                    <Home className="inline mr-1" size={16} />
-                    TOPへ
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    onClick={nextQuestion}
-                    className="flex-1 glass-strong hover:bg-cyan-400/40 text-white py-3 rounded-xl font-semibold transition-all hover:scale-105"
-                  >
-                    {currentQuestionIndex < currentQuiz.length - 1
-                      ? '次の問題へ'
-                      : '終了'}
-                  </button>
-                  <button
-                    onClick={backToTop}
-                    className="px-6 glass hover:bg-gray-500 text-white py-3 rounded-xl font-semibold transition-all"
-                  >
-                    <Home className="inline mr-1" size={18} />
-                    TOPへ
-                  </button>
-                </>
-              )}
+              <button
+                onClick={nextQuestion}
+                className="w-full glass-strong hover:bg-cyan-400/40 text-white py-3 rounded-xl font-semibold transition-all hover:scale-105"
+              >
+                {currentQuestionIndex < currentQuiz.length - 1
+                  ? '次の問題へ'
+                  : '終了'}
+              </button>
             </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }
