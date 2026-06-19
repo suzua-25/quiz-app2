@@ -542,7 +542,7 @@ export default function QuizApp() {
                 </button>
                 <button
                   onClick={() => setShowBackToTopConfirm(false)}
-                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-white py-3 rounded-lg font-semibold transition-colors"
+                  className="flex-1 bg-gray-400 hover:bg-gray-500 text-white py-3 rounded-lg font-semibold transition-colors"
                 >
                   キャンセル
                 </button>
