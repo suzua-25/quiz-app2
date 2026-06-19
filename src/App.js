@@ -471,7 +471,7 @@ export default function QuizApp() {
                   <span className="font-semibold text-cyan-200">正解:</span>{' '}
                   {question.correctAnswer}
                 </div>
-                <div className="text-gray-700">
+                <div className="text-white">
                   <span className="font-semibold text-cyan-200">解説:</span>{' '}
                   {question.explanation}
                 </div>
