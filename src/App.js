@@ -257,38 +257,74 @@ export default function QuizApp() {
     trackEvent('quiz_start');
   };
 
+  // const checkAnswer = () => {
+  //   if (selectedAnswer === null) {
+  //     alert('選択肢を選んでください');
+  //     return;
+  //   }
+  //   setShowResult(true);
+  //   setShowResultModal(true);
+
+  //   const currentQuestion = currentQuiz[currentQuestionIndex];
+  //   if (selectedAnswer === currentQuestion.correctAnswer) {
+  //     setScore((prev) => ({
+  //       ...prev,
+  //       correct: prev.correct + 1,
+  //       total: prev.total + 1,
+  //     }));
+  //   } else {
+  //     setScore((prev) => ({ ...prev, total: prev.total + 1 }));
+  //   }
+  // };
+  //先にスコア計算を済ませてから結果表示をモーダルに表示する
   const checkAnswer = () => {
     if (selectedAnswer === null) {
       alert('選択肢を選んでください');
       return;
     }
-    setShowResult(true);
-    setShowResultModal(true);
 
     const currentQuestion = currentQuiz[currentQuestionIndex];
-    if (selectedAnswer === currentQuestion.correctAnswer) {
-      setScore((prev) => ({
-        ...prev,
-        correct: prev.correct + 1,
-        total: prev.total + 1,
-      }));
-    } else {
-      setScore((prev) => ({ ...prev, total: prev.total + 1 }));
-    }
+    const correct = selectedAnswer === currentQuestion.correctAnswer;
+
+    setScore((prev) => ({
+      // ← スコア計算を先に済ませてから
+      correct: prev.correct + (correct ? 1 : 0),
+      total: prev.total + 1,
+    }));
+    setShowResult(true);
+    setShowResultModal(true);
   };
 
+  // const nextQuestion = () => {
+  //   if (currentQuestionIndex < currentQuiz.length - 1) {
+  //     setCurrentQuestionIndex((prev) => prev + 1);
+  //     setSelectedAnswer(null);
+  //     setShowResult(false);
+  //     setShowResultModal(false);
+  //   } else {
+  //     // score.correctは既にcheckAnswer()でカウント済みなので、そのまま使用
+  //     alert(
+  //       `お疲れさまでした！\n正解数: ${score.correct} / ${currentQuiz.length}`,
+  //     );
+  //     setCurrentQuiz(null);
+
+  //     // ★ アクセス解析：追加4：クイズを最後まで完了したことを記録
+  //     trackEvent('quiz_complete');
+  //   }
+  // };
+
   const nextQuestion = () => {
-    if (currentQuestionIndex < currentQuiz.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
+    const nextIndex = currentQuestionIndex + 1; // ← 先に計算
+    if (nextIndex < currentQuiz.length) {
+      setCurrentQuestionIndex(nextIndex); // ← 直接代入に統一
       setSelectedAnswer(null);
       setShowResult(false);
       setShowResultModal(false);
     } else {
-      // score.correctは既にcheckAnswer()でカウント済みなので、そのまま使用
-      alert(
-        `お疲れさまでした！\n正解数: ${score.correct} / ${currentQuiz.length}`,
-      );
+      const finalCorrect = score.correct; // ← alert前に値を確定
+      const finalTotal = currentQuiz.length;
       setCurrentQuiz(null);
+      alert(`お疲れさまでした！\n正解数: ${finalCorrect} / ${finalTotal}`);
 
       // ★ アクセス解析：追加4：クイズを最後まで完了したことを記録
       trackEvent('quiz_complete');
